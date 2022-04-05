@@ -2,6 +2,12 @@ import { json, useLoaderData } from "remix";
 
 import { API_KEY } from "../utils/env.server";
 
+import stylesUrl from "~/styles/index.css";
+
+export const links = () => {
+  return [{ rel: "stylesheet", href: stylesUrl }];
+};
+
 function validateLat(lat) {
   const parsedLat = parseFloat(lat);
   if (isNaN(parsedLat) || !(Math.abs(parsedLat) <= 90)) {
@@ -51,7 +57,7 @@ export default function Index() {
 
   const temp = weatherInfo?.main?.temp;
   return (
-    <div>
+    <div className="wrapper">
       <form method="get">
         <p>
           <label>
