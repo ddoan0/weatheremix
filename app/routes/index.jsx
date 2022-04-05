@@ -2,9 +2,17 @@ import { json, useLoaderData } from "remix";
 
 import { API_KEY } from "../utils/env.server";
 
-function validateLatLonParam(coordinate) {
-  if (isNaN(coordinate)) {
-    return `The coordinate is not a valid coordinate`;
+function validateLat(lat) {
+  const parsedLat = parseFloat(lat);
+  if (isNaN(parsedLat) || !(Math.abs(parsedLat) <= 90)) {
+    return `The latitude is not a valid coordinate. Please enter a number between -90 and 90`;
+  }
+}
+
+function validateLon(lon) {
+  const parsedLon = parseFloat(lon);
+  if (isNaN(parsedLon) || !(Math.abs(parsedLon) <= 180)) {
+    return `The longitude is not a valid coordinate. Please enter a number between -180 and 180`;
   }
 }
 
@@ -14,12 +22,12 @@ const badRequest = (data) => {
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
-  const lat = url.searchParams.getAll("latitude");
-  const lon = url.searchParams.getAll("longitude");
+  const lat = url.searchParams.get("latitude");
+  const lon = url.searchParams.get("longitude");
 
   const fieldErrors = {
-    lat: validateLatLonParam(lat),
-    lon: validateLatLonParam(lon),
+    lat: validateLat(lat),
+    lon: validateLon(lon),
   };
 
   const fields = {
@@ -34,6 +42,7 @@ export const loader = async ({ request }) => {
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`
   );
+
   return json(await res.json());
 };
 
@@ -90,8 +99,21 @@ export default function Index() {
       {weatherInfo?.fieldErrors ? (
         <p>Please fix form errors</p>
       ) : (
-        <p>It is currently {temp === null ? "Loading..." : temp} degrees F</p>
+        <p>
+          It is currently
+          <span style={{ color: "red" }}>
+            {temp === null ? "Loading..." : temp}
+          </span>
+          degrees F
+        </p>
       )}
+      <div>
+        Common Coordinates:
+        <ul>
+          <li>Atlanta 33.7490° N, 84.3880° W</li>
+          <li>Warner Robins 32.6130° N, 83.6242° W</li>
+        </ul>
+      </div>
     </div>
   );
 }
