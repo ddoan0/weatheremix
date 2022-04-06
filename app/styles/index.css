@@ -2,6 +2,26 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Roboto";
+  src: url("../../public/fonts/Roboto-Regular.ttf") format("Roboto");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --font-body: -apple-system, "Segoe UI", Helvetica Neue, Helvetica,
+    Roboto, Arial, sans-serif, system-ui, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  --font-display: Roboto, var(--font-body);
+}
+
+body {
+  background-color: slateblue;
+  padding-top: 100px;
+  font-family: var(--font-body);
+}
+
 input[type=text] {
   padding: 5px;
   margin: 10px 0;
@@ -18,12 +38,18 @@ input[type=text]:focus {
 
 .wrapper {
   display: flex;
-  width: 100%;
-  max-width: 600px;
-  padding: 0 1em;
-  margin: 0 auto;
   flex-direction: column;
   align-items: center;
+}
+
+.weatherFormBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 50px;
+  margin: 0 auto;
   border-radius: 8px;
   background: white;
   flex-shrink: 3;
@@ -65,8 +91,4 @@ input[type=text]:focus {
   align-items: center;
 }
 
-body {
-  background-color: slateblue;
-  padding: 16px;
-  font-family: "DM Sans", sans-serif;
-}
+
