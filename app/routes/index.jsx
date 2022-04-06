@@ -58,10 +58,10 @@ export default function Index() {
   const temp = weatherInfo?.main?.temp;
   return (
     <div className="wrapper">
-      <form method="get">
+      <form method="get" className="form">
         <p>
           <label>
-            Latitude:(required)
+            <div>Latitude:(required)</div>
             <input
               defaultValue={weatherInfo?.fields?.lat}
               name="latitude"
@@ -80,7 +80,7 @@ export default function Index() {
         </p>
         <p>
           <label>
-            Longitude: (required)
+            <div>Longitude: (required)</div>
             <input
               defaultValue={weatherInfo?.fields?.lon}
               name="longitude"
@@ -98,7 +98,9 @@ export default function Index() {
           ) : null}
         </p>
         <p>
-          <button type="submit">submit</button>
+          <button type="submit" className="submitButton">
+            Submit
+          </button>
         </p>
       </form>
       <div>Hello Weather</div>
@@ -107,7 +109,7 @@ export default function Index() {
       ) : (
         <p>
           It is currently
-          <span style={{ color: "red" }}>
+          <span className={temp <= 68 ? "temp cool" : "temp hot"}>
             {temp === null ? "Loading..." : temp}
           </span>
           degrees F
